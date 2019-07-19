@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Random;
 
 public class MassageRepository {
-    @Autowired
     List<MassageMode> modes;
 
     @Autowired
@@ -24,5 +23,12 @@ public class MassageRepository {
 
     public List<MassageMode> findAll() {
         return modes;
+    }
+
+    public MassageMode findMassageModeByModeName(String wantModeName) {
+        for (MassageMode massageMode : modes) {
+            if(massageMode.getWantMode().equals(wantModeName)) return massageMode;
+        }
+        return null;
     }
 }
