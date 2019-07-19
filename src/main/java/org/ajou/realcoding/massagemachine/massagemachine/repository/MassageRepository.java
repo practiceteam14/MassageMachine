@@ -21,4 +21,8 @@ public class MassageRepository {
                 power[random.nextInt(power.length-1)], time);
         modes.add(massageMode);
     }
+
+    public List<MassageMode> findAll() {
+        return modes;
+    }
 }
