@@ -77,6 +77,8 @@ public class MassageServiceTest {
         massageMode.setWantMode("퇴근");
         massageMode.getWantMode();
         verify(massageMode, timeout(100).atLeastOnce()).getWantMode();
+
+    }
     @Test
     public void 마사지모드에서_몸부위를_불러오면_목부위를_리턴한다() {  //김영진 작성
         MassageMode massageMode = mock(MassageMode.class);
