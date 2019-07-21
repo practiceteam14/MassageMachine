@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.*;
@@ -53,7 +54,29 @@ public class MassageServiceTest {
         verify(massageMode, never()).setPower(anyString());
         verify(massageMode, never()).setTime(anyInt());
     }
+    @Test
+    public void 아침모드를_호출하면_안마부위를_리턴하고_리턴값이_올바른지_검색테스트() {
+        when(massageService.selectMassageModeByModeName("아침")).thenReturn(new MassageMode("아침", "발", "강", 10));
+        String massageBodyPart = massageService.selectMassageModeByModeName("아침").getBodyPart();
+        assertThat(massageBodyPart, is("발"));
+    }
 
+    @Test
+    public void 퇴근모드를_호출하면_안마시간를_리턴하고_리턴값이_올바른지_검증() {
+        //given
+        given(massageRepository.findMassageModeByModeName("퇴근")).willReturn(new MassageMode("퇴근", "어깨", "중", 20));
+        //when
+        int massageTime = massageService.selectMassageModeByModeName("퇴근").getTime();
+        //then
+        assertThat(massageTime, is(20));
+    }
+
+    @Test
+    public void 마사지모드이름을_호출하면_100ms_이내에_1번_실행되는지_검증() {
+        MassageMode massageMode = mock(MassageMode.class);
+        massageMode.setWantMode("퇴근");
+        massageMode.getWantMode();
+        verify(massageMode, timeout(100).atLeastOnce()).getWantMode();
     @Test
     public void 마사지모드에서_몸부위를_불러오면_목부위를_리턴한다() {  //김영진 작성
         MassageMode massageMode = mock(MassageMode.class);
