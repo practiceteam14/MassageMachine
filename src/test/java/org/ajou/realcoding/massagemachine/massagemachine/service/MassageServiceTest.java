@@ -67,4 +67,15 @@ public class MassageServiceTest {
         assertThat(massageModeName, is("무중력"));
         verify(massageRepository, times(1)).findMassageModeByModeName(anyString());
     }
+
+    @Test
+    public void 홍콩을_호출하면_홍콩모드의정보를_리턴하고_최소1번호출되었는지_검증() {
+        given(massageRepository.findMassageModeByModeName("홍콩"))
+                .willReturn(new MassageMode("홍콩","어깨","강",30));
+        MassageMode massageMode = massageService.selectMassageModeByModeName("홍콩");
+
+        verify(massageRepository, atLeast(1)).findMassageModeByModeName(anyString());
+        assertThat(massageMode.getWantMode(), is("홍콩"));
+
+    }
 }
