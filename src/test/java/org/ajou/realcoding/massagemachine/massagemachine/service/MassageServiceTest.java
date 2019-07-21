@@ -51,4 +51,11 @@ public class MassageServiceTest {
         verify(massageMode, never()).setPower(anyString());
         verify(massageMode, never()).setTime(anyInt());
     }
+
+    @Test
+    public void 마사지모드에서_몸부위를_불러오면_목부위를_리턴한다() {  //김영진 작성
+        MassageMode massageMode = mock(MassageMode.class);
+        when(massageMode.getBodyPart()).thenReturn("목");
+        assertThat(massageMode.getBodyPart(), is("목"));
+    }
 }
