@@ -105,4 +105,24 @@ public class MassageServiceTest {
         assertFalse(massageMode.getBodyPart().equals(""));
         assertFalse(massageMode.getTime()==0);
     }
+
+    @Test
+    public void 모드_이름에_특정_단어가_포함된_모드_개수_세기(){
+        List<MassageMode> massageModeList =new ArrayList<>();
+        MassageMode modeOne=new MassageMode("one_JBJ","목","강",4);
+        MassageMode modeTwo=new MassageMode("two","어깨","약",9);
+        MassageMode modeThree=new MassageMode("three_JBJ","다리","약",8);
+
+        massageModeList.add(modeOne);
+        massageModeList.add(modeTwo);
+        massageModeList.add(modeThree);
+
+        String targetString="JBJ";
+
+        long counting=massageModeList.stream()
+                .filter(c->c.getWantMode().contains(targetString))
+                .count();
+
+        assertThat(counting,is(2L));
+    }
 }
