@@ -51,4 +51,31 @@ public class MassageServiceTest {
         verify(massageMode, never()).setPower(anyString());
         verify(massageMode, never()).setTime(anyInt());
     }
+
+    @Test
+    public void 마사지모드에서_몸부위를_불러오면_목부위를_리턴한다() {  //김영진 작성
+        MassageMode massageMode = mock(MassageMode.class);
+        when(massageMode.getBodyPart()).thenReturn("목");
+        assertThat(massageMode.getBodyPart(), is("목"));
+    }
+
+    @Test
+    public void 안마기의정보를_모킹하고_마사지서비스의_무중력모드를불렀을경우_테스트() { //김영진 작성
+        when(massageService.selectMassageModeByModeName("무중력"))
+                .thenReturn(new MassageMode("무중력", "다리", "약", 100));
+        String massageModeName = massageService.selectMassageModeByModeName("무중력").getWantMode();
+        assertThat(massageModeName, is("무중력"));
+        verify(massageRepository, times(1)).findMassageModeByModeName(anyString());
+    }
+
+    @Test
+    public void 홍콩을_호출하면_홍콩모드의정보를_리턴하고_최소1번호출되었는지_검증() {
+        given(massageRepository.findMassageModeByModeName("홍콩"))
+                .willReturn(new MassageMode("홍콩","어깨","강",30));
+        MassageMode massageMode = massageService.selectMassageModeByModeName("홍콩");
+
+        verify(massageRepository, atLeast(1)).findMassageModeByModeName(anyString());
+        assertThat(massageMode.getWantMode(), is("홍콩"));
+
+    }
 }
