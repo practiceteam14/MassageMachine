@@ -68,4 +68,12 @@ public class MassageServiceTest {
         //then
         assertThat(massageTime, is(20));
     }
+
+    @Test
+    public void 마사지모드이름을_호출하면_100ms_이내에_1번_실행되는지_검증() {
+        MassageMode massageMode = mock(MassageMode.class);
+        massageMode.setWantMode("퇴근");
+        massageMode.getWantMode();
+        verify(massageMode, timeout(100).atLeastOnce()).getWantMode();
+    }
 }
