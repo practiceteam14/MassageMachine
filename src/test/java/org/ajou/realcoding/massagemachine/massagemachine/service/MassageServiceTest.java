@@ -58,4 +58,13 @@ public class MassageServiceTest {
         when(massageMode.getBodyPart()).thenReturn("목");
         assertThat(massageMode.getBodyPart(), is("목"));
     }
+
+    @Test
+    public void 안마기의정보를_모킹하고_마사지서비스의_무중력모드를불렀을경우_테스트() { //김영진 작성
+        when(massageService.selectMassageModeByModeName("무중력"))
+                .thenReturn(new MassageMode("무중력", "다리", "약", 100));
+        String massageModeName = massageService.selectMassageModeByModeName("무중력").getWantMode();
+        assertThat(massageModeName, is("무중력"));
+        verify(massageRepository, times(1)).findMassageModeByModeName(anyString());
+    }
 }
