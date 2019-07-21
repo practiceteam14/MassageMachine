@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
@@ -50,5 +51,11 @@ public class MassageServiceTest {
         verify(massageMode, never()).setBodyPart(anyString());
         verify(massageMode, never()).setPower(anyString());
         verify(massageMode, never()).setTime(anyInt());
+    }
+    @Test
+    public void 아침모드를_호출하면_안마부위를_리턴하고_리턴값이_올바른지_검색테스트() {
+        when(massageService.selectMassageModeByModeName("아침")).thenReturn(new MassageMode("아침", "발", "강", 10));
+        String massageBodyPart = massageService.selectMassageModeByModeName("아침").getBodyPart();
+        assertThat(massageBodyPart, is("발"));
     }
 }
