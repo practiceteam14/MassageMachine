@@ -3,13 +3,14 @@ package org.ajou.realcoding.massagemachine.massagemachine.service;
 import org.ajou.realcoding.massagemachine.massagemachine.domain.MassageMode;
 import org.ajou.realcoding.massagemachine.massagemachine.repository.MassageRepository;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThan;
@@ -76,6 +77,21 @@ public class MassageServiceTest {
 
         verify(massageRepository, atLeast(1)).findMassageModeByModeName(anyString());
         assertThat(massageMode.getWantMode(), is("홍콩"));
+    }
+    @Test
+    public void 찾고자_하는_변수에_맞는_첫번째_마사지_모드_찾기(){
+        List<MassageMode> massageModeList =new ArrayList<>();
+        MassageMode modeOne=new MassageMode("one","목","강",4);
+        MassageMode modeTwo=new MassageMode("two","어깨","약",9);
+        MassageMode modeThree=new MassageMode("three","다리","약",8);
 
+        massageModeList.add(modeOne);
+        massageModeList.add(modeTwo);
+        massageModeList.add(modeThree);
+
+        Optional<MassageMode> filteredMode=massageModeList.stream()
+                .filter(c->c.getPower().equals("약"))
+                .findFirst();
+        assertThat(filteredMode.get().getWantMode(),is("two"));
     }
 }
