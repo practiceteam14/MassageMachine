@@ -58,4 +58,14 @@ public class MassageServiceTest {
         String massageBodyPart = massageService.selectMassageModeByModeName("아침").getBodyPart();
         assertThat(massageBodyPart, is("발"));
     }
+
+    @Test
+    public void 퇴근모드를_호출하면_안마시간를_리턴하고_리턴값이_올바른지_검증() {
+        //given
+        given(massageRepository.findMassageModeByModeName("퇴근")).willReturn(new MassageMode("퇴근", "어깨", "중", 20));
+        //when
+        int massageTime = massageService.selectMassageModeByModeName("퇴근").getTime();
+        //then
+        assertThat(massageTime, is(20));
+    }
 }
